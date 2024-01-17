@@ -1,12 +1,19 @@
-import React from 'react'
+'use client'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
+import { useUser } from '@clerk/nextjs';
 
 const Footer = () => {
-    return (
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { user } = useUser();
+    useEffect(() => {
+        setIsLoggedIn(window.location.href.toString().includes('sign-in') | window.location.href.toString().includes('sign-up'))
+    }, [user])
+    return !isLoggedIn && (
         <footer className="bg-gray-100 dark:bg-gray-900">
             <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
                 <div className="flex justify-center text-teal-600 dark:text-teal-300">
-                    <Image src='/logo.svg' alt='logo' width={30} height={30}/>
+                    <Image src='/logo.svg' alt='logo' width={30} height={30} />
                 </div>
 
                 <p className="mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-500 dark:text-gray-400">
