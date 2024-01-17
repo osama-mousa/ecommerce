@@ -1,8 +1,42 @@
-import React from 'react'
+'use client'
+import React, { useContext, useEffect, useState } from 'react'
 import Image from 'next/image'
+import { useUser } from '@clerk/nextjs'
+import { UserButton } from "@clerk/nextjs";
+import { LuShoppingCart } from "react-icons/lu";
+import { CartContext } from '@/context/CartContext';
+import CartApis from '@/utils/CartApis';
+import Cart from './Cart';
 
 const Header = () => {
-    return (
+    const [isLoggedIn, setIsLoggedIn] = useState();
+    const { cart, setCart } = useContext(CartContext)
+    const { user } = useUser();
+
+    useEffect(() => {
+        user && getCartItems();
+    }, [user])
+
+    useEffect(() => {
+        setIsLoggedIn(window.location.href.toString().includes('sign-in') || window.location.href.toString().includes('sign-up'))
+    }, [user])
+
+    const getCartItems = () => {
+        CartApis.getUserCartItems(user.primaryEmailAddress.emailAddress).then(res => {
+            console.log('response from cart items', res?.data?.data)
+            res?.data?.data.forEach(citem => {
+                setCart((oldCart) => [
+                    ...oldCart,
+                    {
+                        id: citem?.id,
+                        product: citem?.attributes?.products?.data[0]
+                    }
+                ])
+            })
+        })
+    }
+
+    return !isLoggedIn && (
         <header className="bg-white dark:bg-gray-900">
             <div className="mx-auto flex h-16 max-w-screen-xxl items-center gap-8 px-4 sm:px-6 lg:px-8 shadow-md">
                 <a href="/">
@@ -61,21 +95,32 @@ const Header = () => {
                     </nav>
 
                     <div className="flex items-center gap-4">
-                        <div className="sm:flex sm:gap-4">
-                            <a
-                                className="block rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-white transition hover:bg-secondary dark:hover:bg-secondary"
-                                href="/"
-                            >
-                                Login
-                            </a>
+                        {!user ?
+                            <div className="sm:flex sm:gap-4">
+                                <a
+                                    className="block rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-white transition hover:bg-secondary dark:hover:bg-secondary"
+                                    href="/sign-in"
+                                >
+                                    Login
+                                </a>
 
-                            <a
-                                className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-primary dark:bg-gray-800 dark:text-white dark:hover:text-white/100 dark:hover:bg-secondary sm:block"
-                                href="/"
-                            >
-                                Register
-                            </a>
-                        </div>
+                                <a
+                                    className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-primary dark:bg-gray-800 dark:text-white dark:hover:text-white/100 dark:hover:bg-secondary sm:block"
+                                    href="/sign-up"
+                                >
+                                    Register
+                                </a>
+                            </div>
+                            :
+                            <div className='flex items-center gap-5 text-white'>
+                                <h2 className='flex gap-1 cursor-pointer items-center'>
+                                    <LuShoppingCart />({cart?.length})
+                                </h2>
+                                <UserButton afterSignOutUrl="/" />
+                                <Cart/>
+
+                            </div>
+                        }
 
                         <button
                             className="block rounded bg-gray-100 p-2.5 text-gray-600 transition hover:text-gray-600/75 dark:bg-gray-800 dark:text-white dark:hover:text-white/75 md:hidden"
