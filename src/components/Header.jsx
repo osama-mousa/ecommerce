@@ -10,6 +10,7 @@ import Cart from './Cart';
 
 const Header = () => {
     const [isLoggedIn, setIsLoggedIn] = useState();
+    const [openCart, setOpenCart] = useState(false);
     const { cart, setCart } = useContext(CartContext)
     const { user } = useUser();
 
@@ -112,12 +113,12 @@ const Header = () => {
                                 </a>
                             </div>
                             :
-                            <div className='flex items-center gap-5 text-white'>
+                            <div onClick={()=> setOpenCart(!openCart)} className='flex items-center gap-5 text-white'>
                                 <h2 className='flex gap-1 cursor-pointer items-center'>
                                     <LuShoppingCart />({cart?.length})
                                 </h2>
                                 <UserButton afterSignOutUrl="/" />
-                                <Cart/>
+                                {openCart && <Cart/>}
 
                             </div>
                         }
