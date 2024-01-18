@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^4.29.3",
+    "@stripe/react-stripe-js": "^2.4.0",
+    "@stripe/stripe-js": "^2.3.0",
+    "stripe":"13.2.0",
     "axios": "^1.6.5",
     "next": "14.0.4",
     "react": "^18",
@@ -17,6 +20,7 @@
     "react-icons": "^5.0.1"
   },
   "devDependencies": {
+    "@types/react": "18.2.48",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
