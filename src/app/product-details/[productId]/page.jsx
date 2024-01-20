@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 import BreadCrumb from '@/components/BreadCrumb';
 import ProductApis from '@/utils/ProductApis'

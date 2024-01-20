@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client'
 import { CartContext } from '@/context/CartContext'
 import CartApis from '@/utils/CartApis';
