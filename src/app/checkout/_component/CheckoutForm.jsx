@@ -1,10 +1,19 @@
 'use client'
+import { CartContext } from '@/context/CartContext';
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
+import { useContext, useState } from 'react';
+import { useUser } from '@clerk/nextjs'
+import OrderApis from '@/utils/OrderApis';
+import CartApis from '@/utils/CartApis';
 
 
 const CheckoutForm = ({ amount }) => {
+    const { cart, setCart } = useContext(CartContext);
+    const { user } = useUser();
     const stripe = useStripe();
     const elements = useElements();
+    const [loading, setLoading] = useState(false);
+    const [errormessage, setErrorMessage] = useState();
 
     const handleSubmit = async (event) => {
         // We don't want to let default form submission happen here,
@@ -17,16 +26,20 @@ const CheckoutForm = ({ amount }) => {
             return;
         }
 
+        const handleError = (error) => {
+            setLoading(false)
+            setErrorMessage(error.message)
+        }
+        // Create New Order
+        createOrder();
+        // Send an Email
+        sendEmail();
+
         // Trigger form validation and wallet collection
         const { error: submitError } = await elements.submit();
         if (submitError) {
             handleError(submitError);
             return;
-        }
-        const handleError = (error) => {
-            const messageContainer = document.querySelector('#error-message');
-            messageContainer.textContent = error.message;
-            submitBtn.disabled = false;
         }
 
         const res = await fetch('/api/create-intent', {
@@ -53,6 +66,39 @@ const CheckoutForm = ({ amount }) => {
             // site first to authorize the payment, then redirected to the `return_url`.
         }
     };
+    const createOrder = () => {
+        let productIds = [];
+        cart.forEach(el => {
+            productIds.push(el?.product?.id)
+        })
+        const data = {
+            data: {
+                email: user.primaryEmailAddress.emailAddress,
+                username: user.fullName,
+                amount,
+                products: productIds,
+
+            }
+        }
+        OrderApis.createOrder(data).then((res) => {
+            if (res) {
+                cart.forEach(el => {
+                    CartApis.deleteCartItem(el?.id).then(result => {
+
+                    })
+                })
+            }
+        }).catch((error) => {
+            console.log('Error', error)
+        })
+    };
+    const sendEmail = async () => {
+        const res = await fetch('/api/send-email', {
+            method: 'POST',
+            
+        })
+        console.log('res',res)
+    }
     return (
         <form onSubmit={handleSubmit}>
             <div className='mx-32 md:mx-[320px] mt-12'>
