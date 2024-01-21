@@ -114,13 +114,14 @@ const Header = () => {
                                 </a>
                             </div>
                             :
-                            <div onClick={()=> setOpenCart(!openCart)} className='flex items-center gap-5 text-white'>
-                                <h2 className='flex gap-1 cursor-pointer items-center'>
-                                    <LuShoppingCart />({cart?.length})
-                                </h2>
+                            <div className='flex items-center gap-5 text-white'>
+                                <div onClick={() => setOpenCart(!openCart)}>
+                                    <h2 className='flex gap-1 cursor-pointer items-center'>
+                                        <LuShoppingCart />({cart?.length})
+                                    </h2>
+                                </div>
                                 <UserButton afterSignOutUrl="/" />
-                                {openCart && <Cart/>}
-
+                                {openCart && <Cart />}
                             </div>
                         }
 
