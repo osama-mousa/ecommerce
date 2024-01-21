@@ -1,14 +1,19 @@
+/* eslint-disable @next/next/no-img-element */
 import { CartContext } from '@/context/CartContext';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
+import EmptyCart from './EmptyCart';
 
 const Cart = () => {
   const router = useRouter();
   const { cart, setCart } = useContext(CartContext);
 
   return (
-    <div className='h-[300px] w-[250px] bg-gray-200 z-10 rounded-md border shadow-xl absolute mx-10 right-10 top-12 p-5 overflow-auto'>
+    <div className='h-[350px] w-[270px] bg-gray-200 z-10 rounded-md border shadow-xl absolute mx-10 right-10 top-12 p-5 overflow-auto'>
+      {cart == 0 &&
+        <EmptyCart size={10}/>
+      }
       <div className="mt-4 space-y-6">
         <ul className="space-y-4">
           {cart?.map((item) => (
@@ -36,7 +41,6 @@ const Cart = () => {
               </div>
             </li>
           ))}
-
         </ul>
       </div>
 
