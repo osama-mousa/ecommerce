@@ -33,7 +33,7 @@ const ProductDetails = ({ params }) => {
     return (
         <div className='px-10 md:px-28 py-8'>
             <BreadCrumb path={path}/>
-            <div className='mt-10 grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-0 justify-around'>
+            <div className='mt-10 grid grid-cols-1 sm:grid-cols-2 gap-5 justify-around'>
                 <ProductBanner product={productDetails}/>
                 <ProductInfo product={productDetails}/>
             </div>

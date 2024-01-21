@@ -36,7 +36,7 @@ const Cart = () => {
                     </header>
                     {cart == 0 ?
                         <div className='text-center'>
-                            <EmptyCart size={16} />
+                            <EmptyCart size={32} />
                             <Link
                                 href="/"
                                 className='p-2 mt-6 text-white rounded-md bg-primary'>
