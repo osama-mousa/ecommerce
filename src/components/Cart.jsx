@@ -10,9 +10,9 @@ const Cart = () => {
   const { cart, setCart } = useContext(CartContext);
 
   return (
-    <div className='h-[350px] w-[270px] bg-gray-200 z-10 rounded-md border shadow-xl absolute mx-10 right-10 top-12 p-5 overflow-auto'>
+    <div className='md:h-[350px] md:w-[270px] h-[280px] w-[220px] bg-gray-200 z-10 rounded-md border shadow-xl absolute mx-10 right-10 top-12 p-5 overflow-auto'>
       {cart == 0 &&
-        <EmptyCart size={10}/>
+          <EmptyCart size={16} />
       }
       <div className="mt-4 space-y-6">
         <ul className="space-y-4">
