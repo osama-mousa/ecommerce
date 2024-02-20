@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useUser } from '@clerk/nextjs';
+import Link from 'next/link';
 
 const Footer = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -13,7 +14,7 @@ const Footer = () => {
         <footer className="bg-gray-100 dark:bg-gray-900">
             <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
                 <div className="flex justify-center text-teal-600 dark:text-teal-300">
-                    <Image src='/logo.svg' alt='logo' width={30} height={30} />
+                    <Link href={'/'} className='text-xl md:text-3xl text-white font-semibold'>LOGO</Link>
                 </div>
 
                 <p className="mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-500 dark:text-gray-400">

@@ -8,6 +8,7 @@ import { LuShoppingCart } from "react-icons/lu";
 import { CartContext } from '@/context/CartContext';
 import CartApis from '@/utils/CartApis';
 import Cart from './Cart';
+import Link from 'next/link';
 
 const Header = () => {
     const [isLoggedIn, setIsLoggedIn] = useState();
@@ -42,7 +43,7 @@ const Header = () => {
         <header className="bg-white dark:bg-gray-900">
             <div className="mx-auto flex h-16 max-w-screen-xxl items-center gap-8 px-4 sm:px-6 lg:px-8 shadow-md">
                 <a href="/">
-                    <Image src='/logo.svg' alt='logo' width={40} height={40} />
+                    <Link href={'/'} className='text-2xl md:text-5xl text-white font-semibold'>LOGO</Link>
                 </a>
 
                 <div className="flex flex-1 items-center justify-end md:justify-between">
